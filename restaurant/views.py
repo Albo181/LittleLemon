@@ -1,6 +1,26 @@
 from django.shortcuts import render
+from rest_framework import generics, viewsets, permissions
+from .models import menu, booking
+from .serializers import MenuSerializer, Bookingserializer
 
 
 # Create your views here.
 def index(request):
     return render(request, 'index.html', {})
+
+class MenuItemView(generics.ListCreateAPIView):
+
+    queryset = menu.objects.all()
+    serializer_class = MenuSerializer
+
+class SingleMenuItemView(generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = menu.objects.all()
+    serializer_class = MenuSerializer
+
+class BookingViewSet(viewsets.ModelViewSet): # automatically creates all CRUD options // works seemlesly with DRF routing / tider code
+
+    queryset = booking.objects.all()
+    serializer_class = Bookingserializer
+    permission_classes = [permissions.IsAdminUser]
+
