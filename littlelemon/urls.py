@@ -18,9 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 from restaurant.views import BookingViewSet
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenBlacklistView
 
 router = routers.DefaultRouter()
-router.register(r'tables', BookingViewSet)
+router.register(r'tables', BookingViewSet) #connected to router.urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,6 +30,14 @@ urlpatterns = [
 
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
+
+    path('api/token/', TokenObtainPairView.as_view(),name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(),name='token_refresh'),
+    path('api/token/blacklist/', TokenBlacklistView.as_view(),name='token_blacklist'),
+
+
+
+
 ]
 
 
